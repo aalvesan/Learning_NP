@@ -90,9 +90,7 @@ csec_nuisances_sigma      = config_json["csec_nuisances_sigma"]
 
 
 ##### Read data ###############################
-INPUT_PATH_REF = '/eos/user/l/lvigilan/MUSIC-LearningNP/H5File_Storage/mc_test1/'
-if 'Z1Z2DeltaPhi' in columns_training:
-        INPUT_PATH_REF = '/eos/user/g/ggrosso/PhD/NOTEBOOKS/HZZ4L/CMS_analysis/h5_files_v3/'
+INPUT_PATH_REF = '/eos/user/l/lvigilan/MUSIC-LearningNP/H5File_Storage/'
 
 feature_dict   = {
         'weight_REF': np.array([]),
@@ -105,11 +103,14 @@ feature_dict   = {
 for key in columns_training:
         feature_dict[key] = np.array([])
 for EvClass in evclass_list:
-        f = h5py.File(INPUT_PATH_REF+process+'.h5', 'r')
+        f = h5py.File(INPUT_PATH_REF+"H5_"+EvClass+'.h5', 'r')
         #cross section uncertainty factor to generate the reference (exponential parametrization, usually 1)
-        cross_sx_nu_D = np.exp(csec_nuisances_data[process]*csec_nuisances_sigma[process]) 
-        cross_sx_nu_R = np.exp(csec_nuisances_reference[process]*csec_nuisances_sigma[process])
-        w = np.array(f.get('weight'))
+        #cross_sx_nu_D = np.exp(csec_nuisances_data[process]*csec_nuisances_sigma[process]) 
+        #cross_sx_nu_R = np.exp(csec_nuisances_reference[process]*csec_nuisances_sigma[process])
+        #CHECK LATER WHAT WE SHOULD DO ABOVE
+        cross_sx_nu_D = 1
+        cross_sx_nu_R = 1
+        w = np.array(f.get('weights'))
         feature_dict['weight_REF']  = np.append(feature_dict['weight_REF'],  w*cross_sx_nu_R)
         feature_dict['weight_DATA'] = np.append(feature_dict['weight_DATA'], w*cross_sx_nu_D)
         #feature_dict['l1Id']        = np.append(feature_dict['l1Id'], np.array(f.get('l1Id')))
@@ -119,7 +120,8 @@ for EvClass in evclass_list:
         for key in columns_training:
                 feature_dict[key] = np.append(feature_dict[key], np.array(f.get(key)))
         f.close()
-        print('process: %s --> number of simulations: %i, yield: %f'%(process, w.shape[0], np.sum(w)))
+        #print('process: %s --> number of simulations: %i, yield: %f'%(process, w.shape[0], np.sum(w)))
+        print('EvClass: %s --> number of simulations: %i, yield: %f'%(EvClass, w.shape[0], np.sum(w)))
 
 #select only 4mu final state
 #mask = (np.abs(feature_dict['l1Id'])==13)*(np.abs(feature_dict['l2Id'])==13)*(np.abs(feature_dict['l3Id'])==13)*(np.abs(feature_dict['l4Id'])==13)
@@ -147,7 +149,7 @@ f_MAX  = np.max(weight)
 indeces  = np.arange(weight.shape[0])
 np.random.shuffle(indeces)
 DATA     = np.array([])
-DATA_idx = np.array([])
+DATA_idx = np.array([],dtype=int)
 print('normalization effect on N_D: %f'%(np.exp(norm_generation*norm_sigma)))
 print('cross section effect on N_D: %f'%(weight_sum_D/weight_sum_R))
 N_DATA   = np.random.poisson(lam=N_Bkg*weight_sum_D/weight_sum_R*np.exp(norm_generation*norm_sigma), size=1)[0]
@@ -159,6 +161,7 @@ if N_REF<N_DATA:
 counter = 0
 while DATA.shape[0]<N_DATA:
         i = indeces[counter]
+        #print(i)
         x = REF[i:i+1, :]
         f = weight[i]
         if f<0:
@@ -187,6 +190,9 @@ while DATA.shape[0]<N_DATA:
                 print('End of file')
                 N_DATA = DATA.shape[0]
                 break
+#print('weight: '+str(weight))
+#print('W_REF: '+str(W_REF))
+#print('DATA_idx: '+str(DATA_idx))
 weight  = np.delete(W_REF, DATA_idx, 0)
 REF     = np.delete(REF, DATA_idx, 0)
 # correct weights for the factor lost due to sampling out the toy
@@ -264,7 +270,7 @@ BSMfinder  = NPLM_imperfect(input_shape,
 
 BSMfinder.compile(loss = NPLM_Imperfect_Loss,  optimizer = 'adam')
 hist = BSMfinder.fit(feature, target, batch_size=batch_size, epochs=total_epochs, verbose=False)
-print('End training ')
+print('End tau training ')
 ##### OUTPUT ###############################
 # test statistic                                                                                                     
 loss = np.array(hist.history['loss'])

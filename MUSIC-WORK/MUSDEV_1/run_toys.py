@@ -5,6 +5,8 @@ import glob
 import os.path
 import time
 from DATAutils import *
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = "0"
                                                             
 OUTPUT_DIRECTORY = '../OUTPUT_DIR/TEST1'
 config_json = {
@@ -15,14 +17,16 @@ config_json = {
     "N_Bkg"   : 788,                                                                                                                                            
     "output_directory": OUTPUT_DIRECTORY,
     "shape_nuisances_generation": [],
-    "shape_nuisances_reference": [],
-    "shape_nuisances_sigma": [],
+    "shape_nuisances_reference":  [],
+    "shape_nuisances_sigma":      [],
+    "shape_nuisances_data":       [],
     "norm_nuisances_generation": 0,
     "norm_nuisances_reference":  0,
     "norm_nuisances_sigma":      0,
-    "csec_nuisances_data":       csec_nuisances_data,
-    "csec_nuisances_reference":  csec_nuisances_reference,
-    "csec_nuisances_sigma":      csec_nuisances_sigma,
+    "norm_nuisances_data":       0,
+    "csec_nuisances_data":       "",#csec_nuisances_data,
+    "csec_nuisances_reference":  "",#csec_nuisances_reference,
+    "csec_nuisances_sigma":      "",#csec_nuisances_sigma,
     "epochs": 300000,
     "patience": 10000,                                                                                                                                       
     "BSMarchitecture": [1,4,1],
@@ -43,7 +47,7 @@ def create_config_file(config_table, OUTPUT_DIRECTORY):
         json.dump(config_table, outfile, indent=4)
     return '%s/config.json'%(OUTPUT_DIRECTORY)
 
-	if __name__ == '__main__':
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()    #Python tool that makes it easy to create an user-friendly command-line interface                                                                                                   
     parser.add_argument('-p','--pyscript',     type=str, help="name of python script to execute", required=True)                                                                  
     parser.add_argument('-l','--local',       type=int, help='if to be run locally', required=False, default=0)

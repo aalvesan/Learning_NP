@@ -1,7 +1,7 @@
 import numpy as np
-evclass_list = [ "1Muon",
+evclass_list = [#'1Ele', 
+    "1Muon",
 ]
-
 
 bkg_list = ['AllData_ZX_redTree_2018',
             'ggTo2e2tau_Contin_MCFM701_redTree_2018',   
@@ -28,6 +28,7 @@ sig_list = [
 
 #### std variables
 mean_bkg = {
+     'SumPt': 243.7642,#random number at the moment CHECK
      'Z1Eta': -0.004484998969496296,
      'Z1Mass': 85.8519627954568,
      'Z1Phi': 0.0004336799502239779,
@@ -64,6 +65,7 @@ mean_bkg = {
      'phistarZ1': -0.0007681197
 }
 std_bkg = {
+         'SumPt': 223.32742,#random number at the moment CHECK
          'Z1Eta': 1.725167203224534,
          'Z1Mass': 12.820934009611815,
          'Z1Phi': 1.8147887617314518,
@@ -99,3 +101,36 @@ std_bkg = {
          'l4Pt': 36.505836,
          'phistarZ1': 1.7840887
 }
+
+
+
+#####
+##nuisances parameters
+####
+
+csec_nuisances_data = {'trim_DYJetsToLL_M50'        : 0,
+                       'trim_WJetsToLNu'            : 0,
+                       'trim_WW'                    : 0,
+                       'trim_WZTo2L2Q'              : 0,
+                       'trim_WZTo3LNu'              : 0,
+                       'trim_ZZTo2L2Q'              : 0,
+                       'trim_ZZTo2L2Nu'             : 0,
+                       'trim_ZZTo4L'                : 0,
+                       'trim_TTTo2L2Nu_1star'       : 0,
+                       'trim_TTToSemiLeptonic_1star': 0,
+                       'trim_ST_tW_top_5f'          : 0,
+                       'trim_ST_tW_antitop_5f'      : 0,
+                       'trim_ST_tchannel_top_5f'    : 0,
+                       'trim_ST_tchannel_antitop_5f': 0,
+                       'trim_ST_schannel_4f'        : 0,
+                       'trim_ZToMuMu_M_50_120'      : 0,
+                       'trim_ZToMuMu_M_120_200'     : 0,
+                       'trim_ZToMuMu_M_200_400'     : 0,
+                       'trim_ZToMuMu_M_400_800'     : 0,
+                       'trim_ZToMuMu_M_800_1400'    : 0,
+                       'trim_ZToMuMu_M_1400_2300'   : 0,
+                       'trim_ZToMuMu_M_2300_3500'   : 0,
+                       'trim_ZToMuMu_M_3500_4500'   : 0,
+                       'trim_ZToMuMu_M_4500_6000'   : 0,
+                       'trim_ZToMuMu_M_6000_Inf'    : 0,
+                   }

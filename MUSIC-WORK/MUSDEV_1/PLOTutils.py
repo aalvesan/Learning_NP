@@ -25,6 +25,7 @@ sig_list = [
 
 #### std variables
 mean_bkg = {
+     'SumPt': 243.7642,#random number at the moment CHECK 
      'Z1Eta': -0.004484998969496296,
      'Z1Mass': 85.8519627954568,
      'Z1Phi': 0.0004336799502239779,
@@ -61,6 +62,7 @@ mean_bkg = {
      'phistarZ1': -0.0007681197
 }
 std_bkg = {
+         'SumPt': 223.32742,#random number at the moment CHECK 
          'Z1Eta': 1.725167203224534,
          'Z1Mass': 12.820934009611815,
          'Z1Phi': 1.8147887617314518,
