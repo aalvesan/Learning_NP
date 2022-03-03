@@ -90,7 +90,7 @@ csec_nuisances_sigma      = config_json["csec_nuisances_sigma"]
 
 
 ##### Read data ###############################
-INPUT_PATH_REF = '/eos/user/l/lvigilan/MUSIC-LearningNP/H5File_Storage/'
+INPUT_PATH_REF = '/eos/user/l/lvigilan/MUSIC-LearningNP/H5File_Storage/H5_1Muon.h5'
 
 feature_dict   = {
         'weight_REF': np.array([]),
